@@ -2,58 +2,119 @@
 
 ## Loading and preprocessing the data
 
-```{r}
+
+```r
 unzip("activity.zip")
 activity<-read.csv("activity.csv",stringsAsFactor=FALSE,header=TRUE)
 activity$date <- as.Date(activity$date, "%Y-%m-%d")
 head(activity)
 ```
 
+```
+##   steps       date interval
+## 1    NA 2012-10-01        0
+## 2    NA 2012-10-01        5
+## 3    NA 2012-10-01       10
+## 4    NA 2012-10-01       15
+## 5    NA 2012-10-01       20
+## 6    NA 2012-10-01       25
+```
+
 ## What is mean total number of steps taken per day?
 
 Calculate Steps Per Day
-```{r}
+
+```r
 stepsPerDate<-aggregate(steps ~ date, data = activity, FUN = sum)
 head(stepsPerDate)
 ```
 
+```
+##         date steps
+## 1 2012-10-02   126
+## 2 2012-10-03 11352
+## 3 2012-10-04 12116
+## 4 2012-10-05 13294
+## 5 2012-10-06 15420
+## 6 2012-10-07 11015
+```
+
 Make a plot of the total number of steps taken each day
-```{r}
+
+```r
 hist(stepsPerDate$steps,
      main="",
      xlab="Total number of steps per day",
      breaks=nrow(stepsPerDate))
 ```
 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+
 Calculate and report the mean of steps taken per day
-```{r}
+
+```r
 mean(stepsPerDate$steps)
 ```
 
+```
+## [1] 10766
+```
+
 Calculate and report the median total number of steps taken per day
-```{r}
+
+```r
 median(stepsPerDate$steps)
+```
+
+```
+## [1] 10765
 ```
 
 ## What is the average daily activity pattern?
 
 Make a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
-```{r}
+
+```r
 steps_interval <- aggregate(steps ~ interval, data = activity, FUN = mean)
 head(steps_interval)
+```
+
+```
+##   interval   steps
+## 1        0 1.71698
+## 2        5 0.33962
+## 3       10 0.13208
+## 4       15 0.15094
+## 5       20 0.07547
+## 6       25 2.09434
+```
+
+```r
 plot(steps_interval, type = "l")
 ```
 
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
+
 Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
-```{r}
+
+```r
 steps_interval[steps_interval$steps==max(steps_interval$steps),"interval"]
+```
+
+```
+## [1] 835
 ```
 
 ## Imputing missing values
 
 Calculate and report the total number of missing values in the dataset
-```{r}
+
+```r
 sum(is.na(activity$steps))
+```
+
+```
+## [1] 2304
 ```
 
 
